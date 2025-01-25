@@ -15,12 +15,14 @@ public class PlayerController : MonoBehaviour
     public Vector3 minSize = new Vector3(0.5f, 0.5f, 0.5f);
     public Vector3 maxSize = new Vector3(3f, 3f, 3f);
     public Slider stretchBar;
+    public GameObject pause, lose;
     public Transform groundCheck;
     public LayerMask groundLayer;
 
     public bool isJump = false;
     public bool isGrounded = false;
     public bool powerUp = false;
+    public bool isPaused = false;
 
     private Vector3 targetScale;
     private float moveSpeed = 1f;
@@ -42,7 +44,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(stretch > -1000000f)
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isPaused = !isPaused; 
+            pause.SetActive(false);
+        }
+
+        if (isPaused) return;
+
+        if (stretch > 0f)
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -55,6 +65,12 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Shrink");
             }
         }
+        else
+        {
+            isPaused = true;
+            lose.SetActive(true);
+        }
+
 
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * sizeLerpSpeed);
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
@@ -86,20 +102,22 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (powerUp)
+        if(powerUp)
         {
-            if(Input.GetKeyDown(KeyCode.F)) 
-            {
-
-            }
+            StartCoroutine(CountdownPower());
         }
 
     }
 
     private void FixedUpdate()
     {
-     
+       
+    }
 
+    IEnumerator CountdownPower()
+    {
+        yield  return new WaitForSeconds(7f);
+        powerUp = false;
     }
 
     public void ChangeSize(float size)
