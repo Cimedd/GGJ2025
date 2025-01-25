@@ -20,12 +20,14 @@ public class PlayerController : MonoBehaviour
 
     public bool isJump = false;
     public bool isGrounded = false;
+    public bool powerUp = false;
 
     private Vector3 targetScale;
     private float moveSpeed = 1f;
     private float jumpForce = 0.5f;
     private float horizontal = 0f;
    [SerializeField] private Transform respawnPoint;
+
 
     // Start is called before the first frame update
     void Start()
@@ -83,7 +85,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        Debug.Log($"Velocity: {rb.velocity}");
+        if (powerUp)
+        {
+            if(Input.GetKeyDown(KeyCode.F)) 
+            {
+
+            }
+        }
 
     }
 
@@ -139,5 +147,13 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         transform.position = respawnPoint.position;
     }
+
+    IEnumerator Charging()
+    {
+        yield return new WaitForSeconds(1f);
+        rb.AddForce(Vector2.left * moveSpeed, ForceMode2D.Impulse);
+
+    }
+
 
 }
