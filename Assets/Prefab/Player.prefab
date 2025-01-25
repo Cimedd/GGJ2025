@@ -29,7 +29,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2115360793940852306}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2074087545090049447
 GameObject:
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 2115360793940852307}
   m_Layer: 0
   m_Name: PlayerChara
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,6 +100,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 2115360795086936570}
   - {fileID: 7794326353714644378}
   m_Father: {fileID: 1757855808935126533}
   m_RootOrder: 0
@@ -221,6 +222,7 @@ MonoBehaviour:
     m_Bits: 64
   isJump: 0
   isGrounded: 0
+  respawnPoint: {fileID: 0}
 --- !u!1 &2115360795086936326
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,8 +253,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1757855808935126533}
-  m_RootOrder: 1
+  m_Father: {fileID: 2115360793940852306}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2115360795086936325
 Camera:
@@ -580,7 +582,7 @@ RectTransform:
   m_Children:
   - {fileID: 142813323197563760}
   m_Father: {fileID: 1757855808935126533}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -659,7 +661,7 @@ GameObject:
   - component: {fileID: 1757855808935126533}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -677,7 +679,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2115360793940852306}
-  - {fileID: 2115360795086936570}
   - {fileID: 304417148215492612}
   m_Father: {fileID: 0}
   m_RootOrder: 0

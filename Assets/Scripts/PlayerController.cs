@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public Rigidbody2D rb; 
-    public float baseMass = 1f; 
-    public float baseMoveSpeed = 5f; 
-    public float baseJumpForce = 10f; 
+    public Rigidbody2D rb;
+    public float baseMass = 1f;
+    public float baseMoveSpeed = 5f;
+    public float baseJumpForce = 10f;
     public float sizeChangeRate = 0.2f;
     public float sizeLerpSpeed = 5f;
     public float stretch = 100f;
@@ -23,9 +23,9 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 targetScale;
     private float moveSpeed = 1f;
-    private float jumpForce = 1f;
+    private float jumpForce = 0.5f;
     private float horizontal = 0f;
-    private Transform respawnPoint;
+   [SerializeField] private Transform respawnPoint;
 
     // Start is called before the first frame update
     void Start()
@@ -54,24 +54,13 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * sizeLerpSpeed);
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.1f, groundLayer);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!isJump)
-            {
-                isJump = true;
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                Debug.Log("Jump");
-                horizontal *= 0.75f;
-            }
-        }
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 
         if (isGrounded)
         {
             horizontal = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
-            
+
             isJump = false;
             if (rb.velocity.y < 0)
                 rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -83,7 +72,19 @@ public class PlayerController : MonoBehaviour
             rb.velocity = velocity;
         }
 
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!isJump && isGrounded)
+            {
+                isJump = true;
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                Debug.Log("Jump");
+                horizontal *= 0.75f;
+            }
+        }
+
+        Debug.Log($"Velocity: {rb.velocity}");
+
     }
 
     private void FixedUpdate()
@@ -110,7 +111,7 @@ public class PlayerController : MonoBehaviour
     {
 
         float scaleFactor = transform.localScale.x;
-        rb.mass = baseMass * scaleFactor /*Mathf.Pow(scaleFactor, 2)*/;
+        rb.mass = baseMass * Mathf.Pow(scaleFactor, 2);
         moveSpeed = baseMoveSpeed / scaleFactor;
         jumpForce = baseJumpForce * scaleFactor;
     }
@@ -129,6 +130,14 @@ public class PlayerController : MonoBehaviour
     public void SetRespawn(Transform checkpoint)
     {
         respawnPoint = checkpoint;
+    }
+
+    public IEnumerator Popped()
+    {
+        stretch -= 10f;
+        SetUI();
+        yield return new WaitForSeconds(1f);
+        transform.position = respawnPoint.position;
     }
 
 }
