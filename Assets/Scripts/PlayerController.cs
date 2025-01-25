@@ -26,12 +26,13 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed = 1f;
     private float jumpForce = 0.5f;
     private float horizontal = 0f;
-   [SerializeField] private Transform respawnPoint;
+   [SerializeField] private Vector3 respawnPoint;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        respawnPoint = transform.position;
         stretchBar.maxValue = 100;
         SetUI();
         SetPhysic();
@@ -70,7 +71,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             Vector2 velocity = rb.velocity;
-            velocity.x *= Mathf.Clamp01(1f - 1f * Time.fixedDeltaTime);
+            //velocity.x *= Mathf.Clamp01(1f - 1f * Time.fixedDeltaTime);
             rb.velocity = velocity;
         }
 
@@ -137,7 +138,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetRespawn(Transform checkpoint)
     {
-        respawnPoint = checkpoint;
+        respawnPoint = checkpoint.position;
     }
 
     public IEnumerator Popped()
@@ -145,7 +146,7 @@ public class PlayerController : MonoBehaviour
         stretch -= 10f;
         SetUI();
         yield return new WaitForSeconds(1f);
-        transform.position = respawnPoint.position;
+        transform.position = respawnPoint;
     }
 
     IEnumerator Charging()
