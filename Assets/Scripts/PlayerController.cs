@@ -23,17 +23,23 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded = false;
     public bool powerUp = false;
     public bool isPaused = false;
+    public bool isRespawn = false;
 
     private Vector3 targetScale;
     private float moveSpeed = 1f;
     private float jumpForce = 0.5f;
     private float horizontal = 0f;
    [SerializeField] private Vector3 respawnPoint;
+    public Sprite[] bubbleSprite;
+    public SpriteRenderer charaSprite;
+    public AudioSource sourceaudio;
+    public AudioClip[] audioClips;
 
 
     // Start is called before the first frame update
     void Start()
     {
+       
         respawnPoint = transform.position;
         stretchBar.maxValue = 100;
         SetUI();
@@ -47,10 +53,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             isPaused = !isPaused; 
-            pause.SetActive(false);
+            pause.SetActive(isPaused);
         }
 
-        if (isPaused) return;
+        if (isPaused || isRespawn) return;
 
         if (stretch > 0f)
         {
@@ -77,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
+            charaSprite.sprite = bubbleSprite[0];
             horizontal = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
 
@@ -95,6 +102,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!isJump && isGrounded)
             {
+                charaSprite.sprite = bubbleSprite[1];
                 isJump = true;
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 Debug.Log("Jump");
@@ -161,10 +169,15 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Popped()
     {
+        isRespawn = true;
         stretch -= 10f;
         SetUI();
-        yield return new WaitForSeconds(1f);
+        charaSprite.sprite = bubbleSprite[2];
+        yield return new WaitForSeconds(1);
+        charaSprite.sprite = bubbleSprite[3];
+        yield return new WaitForSeconds(2f);
         transform.position = respawnPoint;
+        isRespawn= false;
     }
 
     IEnumerator Charging()
