@@ -62,13 +62,17 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                playSound(1);
                 ChangeSize(sizeChangeRate);
                 Debug.Log("Grow");
+               
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
+                playSound(2);
                 ChangeSize(-1 * sizeChangeRate);
                 Debug.Log("Shrink");
+                
             }
         }
         else
@@ -83,13 +87,23 @@ public class PlayerController : MonoBehaviour
 
         if (isGrounded)
         {
+            isJump = false;
             charaSprite.sprite = bubbleSprite[0];
+            playSound(0);
             horizontal = Input.GetAxis("Horizontal");
             rb.velocity = new Vector2(horizontal * moveSpeed, rb.velocity.y);
-
-            isJump = false;
             if (rb.velocity.y < 0)
                 rb.velocity = new Vector2(rb.velocity.x, 0);
+            if (horizontal > 0)
+            {
+                charaSprite.flipX= false;
+            }
+            else if (horizontal < 0)
+            {
+                charaSprite.flipX = true;
+            }
+
+        
         }
         else
         {
@@ -102,8 +116,8 @@ public class PlayerController : MonoBehaviour
         {
             if (!isJump && isGrounded)
             {
-                charaSprite.sprite = bubbleSprite[1];
                 isJump = true;
+                charaSprite.sprite = bubbleSprite[1];
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 Debug.Log("Jump");
                 horizontal *= 0.75f;
@@ -176,6 +190,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1);
         charaSprite.sprite = bubbleSprite[3];
         yield return new WaitForSeconds(2f);
+        charaSprite.sprite = bubbleSprite[0];
         transform.position = respawnPoint;
         isRespawn= false;
     }
@@ -187,5 +202,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public  void playSound(int index)
+    {
+        sourceaudio.Stop();
+        sourceaudio.clip = audioClips[index];
+        sourceaudio.Play();
+    }
 
 }

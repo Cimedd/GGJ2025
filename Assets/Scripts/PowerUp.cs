@@ -21,6 +21,7 @@ public class PowerUp : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             collision.GetComponent<PlayerController>().powerUp = true;
+            Destroy(gameObject);
         }
     }
 }
