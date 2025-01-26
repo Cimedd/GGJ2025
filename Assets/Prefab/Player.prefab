@@ -97,7 +97,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2115360793940852318}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -15.6, y: 9.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -866,8 +866,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: STAMINA
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: aa3a69ed0562eaa4b8c8eea4a9b2c9f9, type: 2}
-  m_sharedMaterial: {fileID: 4953458201187015672, guid: aa3a69ed0562eaa4b8c8eea4a9b2c9f9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 59b1f66eac96a1e47ba58e96da16befa, type: 2}
+  m_sharedMaterial: {fileID: 2925235105763585622, guid: 59b1f66eac96a1e47ba58e96da16befa, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -901,7 +901,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
-  m_characterSpacing: 16
+  m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
